@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>IGUANA Frontend</title>
+</h:head>
+<h:body>
+	<div class="navbar navbar-fixed-top navbar-inverse">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand" href="#">IGUANA Frontend</a>
+			</div>
+		</div>
+	</div>
+	<h:form>
+		<div>
+			<center>
+				<p:graphicImage value="resources/images/IGUANALogo.png"
+					alt="IGUANA Logo" title="IGUANA LOGO" width="500" />
+				<div class="container">
+					<a class="brand" href="#">Create Configuration</a>
+				</div>
+				<hr />
+				<p:wizard widgetVar="wiz" flowListener="#{config.onFlowProcess}">
+					<p:tab id="name" title="Name">
+						<p:panel header="Config Name">
+							<p:messages />
+							<h:panelGrid columns="2" columnClasses="label, value">
+								<h:outputText value="Configuration Name: *" />
+								<p:inputText value="#{config.id}" required="true"
+									label="Config ID" />
+							</h:panelGrid>
+						</p:panel>
+					</p:tab>
+
+					<p:tab id="connections" title="Connections">
+						<p:panel header="Connection" id="cons">
+							<p:messages />
+
+							<h:panelGrid columns="3">
+								<h:panelGrid columns="2">
+				
+									<h:outputText value="ID: *" />
+									<p:inputText value="#{connection.id}" required="true"
+										label="ID" />
+									<h:outputText value="Endpoint: *" />
+									<p:inputText value="#{connection.endpoint}" required="true"
+										label="Endpoint" />
+									<h:outputText value="Update Endpoint " />
+									<p:inputText value="#{connection.updateEndpoint}"
+										label="Update Endpoint" />
+									<h:outputText value="User: " />
+									<p:inputText value="#{connection.user}" label="User" />
+									<h:outputText value="Password: " />
+									<p:password value="#{connection.password}" label="Password" />
+								</h:panelGrid>
+								<h:panelGrid columns="1">
+									<p:commandButton 
+										action="#{config.addConnection(connection)}" id="save"
+										update="cons" icon="ui-icon-circle-triangle-e"
+										title="Save Connection" />
+									<p:commandButton
+										action="#{connection.set(config.getSelectedConnection())}" id="edit"
+										update="cons" icon="ui-icon-circle-triangle-w"
+										title="Edit Connection" />
+								</h:panelGrid>
+							
+								<p:selectOneListbox style="height:200px;" id="connectionSelect" converter="connectionConverter" var="a_con" value="#{config.selectedConnection}" >
+									<f:selectItems value="#{config.connections}" var="con"
+										itemLabel="#{con}" itemValue="#{con}" />
+
+									<p:column>
+										<h:outputText value="#{a_con.id}" />
+									</p:column>
+								</p:selectOneListbox>
+
+							</h:panelGrid>
+
+						</p:panel>
+					</p:tab>
+					<p:tab id="loganalyzer" title="Log Analyzer">
+						<p:panel header="Log Analyzer">
+							<p:messages />
+							<h:panelGrid columns="2" columnClasses="label, value">
+								<h:outputText value="Log Analyzer: *" />
+								<p:inputText value="" required="true"
+									label="Class Name" />
+									<!-- TODO add parameter -->
+							</h:panelGrid>
+						</p:panel>
+					</p:tab>
+				</p:wizard>
+				<hr />
+			</center>
+		</div>
+	</h:form>
+	<style>
+.container,.navbar-static-top .container,.navbar-fixed-top .container,.navbar-fixed-bottom .container
+	{
+	width: 1170px;
+}
+
+.navbar-static-top .container,.navbar-fixed-top .container,.navbar-fixed-bottom .container
+	{
+	width: 940px;
+}
+
+.navbar .container {
+	width: auto;
+}
+
+.container,.navbar-static-top .container,.navbar-fixed-top .container,.navbar-fixed-bottom .container
+	{
+	width: 940px;
+}
+
+.container {
+	margin-right: auto;
+	margin-left: auto;
+}
+
+body {
+	padding-top: 0px;
+	font-family: "Source Sans Pro", sans-serif;
+	font-weight: 400;
+	color: #2D2D2D;
+}
+
+body {
+	margin: 0px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	line-height: 20px;
+	color: #333;
+}
+
+.navbar-inverse .brand {
+	color: #999;
+}
+
+.navbar-inverse .brand,.navbar-inverse .nav>li>a {
+	color: #999;
+}
+
+.navbar .brand {
+	display: block;
+	float: left;
+	padding: 10px 20px;
+	margin-left: -20px;
+	font-size: 20px;
+	font-weight: 200;
+	color: #777;
+}
+
+a {
+	color: #08C;
+	text-decoration: none;
+}
+
+.navbar-inverse .navbar-inner {
+	background-color: #1B1B1B;
+	background-image: linear-gradient(to bottom, #222, #111);
+	background-repeat: repeat-x;
+	border-color: #252525;
+}
+
+.navbar-fixed-top .navbar-inner,.navbar-static-top .navbar-inner {
+	box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
+	padding-bottom: 10px;
+	margin-bottom: 30px;
+}
+
+.navbar-fixed-top .navbar-inner,.navbar-fixed-bottom .navbar-inner {
+	padding-right: 0px;
+	padding-left: 0px;
+	border-radius: 0px;
+}
+
+.navbar-fixed-top .navbar-inner,.navbar-static-top .navbar-inner {
+	border-width: 0px 0px 1px;
+}
+
+.navbar-inner {
+	min-height: 40px;
+	padding-right: 20px;
+	padding-left: 20px;
+	background-color: #FAFAFA;
+	background-image: linear-gradient(to bottom, #FFF, #F2F2F2);
+	background-repeat: repeat-x;
+	border: 1px solid #D4D4D4;
+	border-radius: 4px;
+	box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.067);
+}
+</style>
+</h:body>
+</html>
