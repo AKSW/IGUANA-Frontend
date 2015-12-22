@@ -10,30 +10,52 @@
 	<title>IGUANA Frontend</title>
 </h:head>
 <h:body>
-	<div class="navbar navbar-fixed-top navbar-inverse">
-		<div class="navbar-inner">
-			<div class="container">
-				<a class="brand" href="#">IGUANA Frontend</a>
-			</div>
-		</div>
-	</div>
+<p:panel header="IGUANA Frontend"> 
+<!-- 	<div class="navbar navbar-fixed-top navbar-inverse"> -->
+<!-- 		<div class="navbar-inner"> -->
+<!-- 			<div class="container"> -->
+<!-- 				<a class="brand" href="#">IGUANA Frontend</a> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
 	<h:form>
 		<div>
 			<center>
 				<p:graphicImage value="resources/images/IGUANALogo.png"
 					alt="IGUANA Logo" title="IGUANA LOGO" width="500" />
 				<div class="container">
-					<a class="brand" href="#">Create Configuration</a>
+					<h1>
+						<a class="brand" href="#">Create Configuration</a>
+					</h1>
 				</div>
 				<hr />
 				<p:wizard widgetVar="wiz" flowListener="#{config.onFlowProcess}">
 					<p:tab id="name" title="Name">
 						<p:panel header="Config Name">
 							<p:messages />
-							<h:panelGrid columns="2" columnClasses="label, value">
-								<h:outputText value="Configuration Name: *" />
-								<p:inputText value="#{config.id}" required="true"
-									label="Config ID" />
+							<h:panelGrid columns="3" styleClass="foo"
+								columnClasses="new, space, load">
+								<h:panelGrid styleClass="foo">
+									<h3>Create New Config</h3>
+									<h:outputText value="Configuration Name: *" />
+									<p:inputText value="#{config.id}" required="true"
+										label="Config ID" />
+								</h:panelGrid>
+								<p:spacer width="100" />
+								<h:panelGrid styleClass="foo">
+									<h3>Or Load an existing one</h3>
+									<p:selectOneListbox style="height:200px;" var="conf"
+										value="#{configController.config}">
+										<f:selectItems value="#{configController.configs}" var="confa"
+											itemLabel="#{confa}" itemValue="#{confa}" />
+
+										<p:column>
+											<h:outputText value="#{confa}" />
+										</p:column>
+									</p:selectOneListbox>
+									<p:commandButton value="Load"></p:commandButton>
+
+								</h:panelGrid>
 							</h:panelGrid>
 						</p:panel>
 					</p:tab>
@@ -44,7 +66,7 @@
 
 							<h:panelGrid columns="3">
 								<h:panelGrid columns="2">
-				
+
 									<h:outputText value="ID: *" />
 									<p:inputText value="#{connection.id}" required="true"
 										label="ID" />
@@ -60,17 +82,18 @@
 									<p:password value="#{connection.password}" label="Password" />
 								</h:panelGrid>
 								<h:panelGrid columns="1">
-									<p:commandButton 
-										action="#{config.addConnection(connection)}" id="save"
-										update="cons" icon="ui-icon-circle-triangle-e"
+									<p:commandButton actionListener="#{config.addConnection(connection)}"
+										id="save" update="cons" icon="ui-icon-circle-triangle-e"
 										title="Save Connection" />
 									<p:commandButton
-										action="#{connection.set(config.getSelectedConnection())}" id="edit"
-										update="cons" icon="ui-icon-circle-triangle-w"
+										actionListener="#{connection.set(config.getSelectedConnection())}"
+										id="edit" update="cons" icon="ui-icon-circle-triangle-w"
 										title="Edit Connection" />
 								</h:panelGrid>
-							
-								<p:selectOneListbox style="height:200px;" id="connectionSelect" converter="connectionConverter" var="a_con" value="#{config.selectedConnection}" >
+
+								<p:selectOneListbox style="height:200px;" id="connectionSelect"
+									converter="connectionConverter" var="a_con"
+									value="#{config.selectedConnection}">
 									<f:selectItems value="#{config.connections}" var="con"
 										itemLabel="#{con}" itemValue="#{con}" />
 
@@ -78,20 +101,38 @@
 										<h:outputText value="#{a_con.id}" />
 									</p:column>
 								</p:selectOneListbox>
-
 							</h:panelGrid>
 
 						</p:panel>
 					</p:tab>
-					<p:tab id="loganalyzer" title="Log Analyzer">
-						<p:panel header="Log Analyzer">
+					<p:tab id="loganalyzer" title="Log Analyzer (optional)">
+						<p:panel header="Log Analyzer (optional)">
 							<p:messages />
 							<h:panelGrid columns="2" columnClasses="label, value">
 								<h:outputText value="Log Analyzer: *" />
-								<p:inputText value="" required="true"
-									label="Class Name" />
-									<!-- TODO add parameter -->
+								<p:selectOneMenu id="logA" value="#{logAnalyzer.className}">
+									<f:selectItem itemLabel="Select Class Name" itemValue="" />
+									<f:selectItems value="#{classes.logClasses}" />
+								</p:selectOneMenu>
+								<!-- TODO add parameter -->
+								<h:panelGrid columns="2">
+									<h:outputText value="Add Parameter" />
+									<h:panelGrid columns="2">
+										<h:outputText value="Name" />
+										<p:inputText value="name" />
+										<h:outputText value="Value" />
+										<p:inputText value="value" />
+									</h:panelGrid>
+									<p:commandButton value="ADD" />
+								</h:panelGrid>
 							</h:panelGrid>
+						</p:panel>
+					</p:tab>
+					<p:tab id="suites" title="Suites">
+						<p:panel header="Suites">
+						<p:messages />
+							<h3>Add A Suite</h3>
+							
 						</p:panel>
 					</p:tab>
 				</p:wizard>
@@ -99,6 +140,7 @@
 			</center>
 		</div>
 	</h:form>
+	</p:panel>
 	<style>
 .container,.navbar-static-top .container,.navbar-fixed-top .container,.navbar-fixed-bottom .container
 	{
@@ -195,6 +237,10 @@ a {
 	border: 1px solid #D4D4D4;
 	border-radius: 4px;
 	box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.067);
+}
+
+.foo td {
+	vertical-align: top;
 }
 </style>
 </h:body>

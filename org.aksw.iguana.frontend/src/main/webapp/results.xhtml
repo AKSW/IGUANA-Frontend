@@ -11,46 +11,35 @@
 </h:head>
 
 <h:body>
-<!-- 	<div class="navbar navbar-fixed-top navbar-inverse"> -->
-<!-- 		<div class="navbar-inner"> -->
-<!-- 			<div class="container"> -->
-<!-- 				<a class="brand" href="#">IGUANA Frontend</a> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
-<p:panel header="IGUANA Frontend">
+	<div class="navbar navbar-fixed-top navbar-inverse">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand" href="#">IGUANA Frontend</a>
+			</div>
+		</div>
+	</div>
 	<h:form>
 		<div>
 			<center>
 				<p:graphicImage value="resources/images/IGUANALogo.png"
 					alt="IGUANA Logo" title="IGUANA LOGO" width="500" />
 
-				<hr />
-				<div class="ui-grid ui-grid-fixed">
-					<div class="ui-grid-row">
-						<div class="ui-grid-col-4">
-							<p:button value="Create Config" outcome="configuration"
-								icon="ui-icon-gear">
-							</p:button>
-						</div>
-						<div class="ui-grid-col-4">
-							<p:button value="Start Benchmark" 
-								icon="ui-icon-circle-triangle-e">
-								<f:param name="productI" value="20" />
-							</p:button>
-						</div>
-						<div class="ui-grid-col-4">
-							<p:button disabled="#{resultProcessor.isEmpty()}"
-								value="See Last Results" outcome="results" icon="ui-icon-star">
-							</p:button>
-						</div>
-					</div>
-				</div>
-				<hr />
+				<p:panel>
+					<p:tree value="#{resultProcessor.root1}" var="doc"
+						selectionMode="single"
+						selection="#{resultProcessor.selectedNode}">
+						<p:treeNode expandedIcon="ui-icon-folder-open"
+							collapsedIcon="ui-icon-folder-collapsed">
+							<h:outputText value="" />
+						</p:treeNode>
+						<p:treeNode type="document" icon="ui-icon-document">
+							<h:outputText value="results" />
+						</p:treeNode>
+					</p:tree>
+				</p:panel>
 			</center>
 		</div>
 	</h:form>
-	</p:panel>
 	<style>
 .container,.navbar-static-top .container,.navbar-fixed-top .container,.navbar-fixed-bottom .container
 	{

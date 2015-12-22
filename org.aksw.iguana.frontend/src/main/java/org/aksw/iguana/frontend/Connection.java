@@ -24,7 +24,6 @@ public class Connection implements Serializable {
 		return endpoint;
 	}
 	public void setEndpoint(String endpoint) {
-		System.out.println(endpoint);
 		this.endpoint = endpoint;
 	}
 	public String getUpdateEndpoint() {
